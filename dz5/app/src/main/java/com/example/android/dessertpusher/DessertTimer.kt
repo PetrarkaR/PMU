@@ -71,3 +71,51 @@
 //        handler.removeCallbacks(runnable)
 //    }
 //}
+package com.example.android.dessertpusher
+
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import timber.log.Timber
+
+class DessertTimer(private val lifecycle: Lifecycle) : LifecycleObserver {
+
+    private var timerActive = false
+
+    init {
+        lifecycle.addObserver(this)
+    }
+
+    private var count = 0
+    private var timerJob: Job? = null
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun startTimer() {
+        if (!timerActive) {
+            timerActive = true
+            timerJob = CoroutineScope(Dispatchers.Main).launch {
+                while (timerActive) {
+                    delay(1000) // 1 second
+                    count++
+                    Timber.i("Timer count: $count")
+                }
+            }
+            Timber.i("Timer started")
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun stopTimer() {
+        if (timerActive) {
+            timerActive = false
+            timerJob?.cancel()
+            Timber.i("Timer stopped at count: $count")
+        }
+    }
+}
+

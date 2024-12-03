@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/cardview_light_background"
+    tools:context=".TekstFragment">
+
+
+    <!-- ImageView for the crane image below the title -->
+
+    <!-- Guide TextView centered below the image -->
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Origami"
+        android:textSize="60sp" />
+
+    <ImageView
+        android:id="@+id/crane"
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        android:layout_gravity="center"
+        android:src="@drawable/howto" />
+
+    <TextView
+        android:id="@+id/guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Odaberite koji tekst zelite da vidite (istorija, opis, danas)"
+        android:textSize="15sp"
+        android:fontFamily="sans-serif-condensed-medium" />
+
+    <!-- Button placeholder below the guide text -->
+
+
+    <!-- Input field centered below the guide text -->
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Sta Vas interesuje?" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="hocu da vidim!"
+        />
+
+
+    <!-- Scrollable TextView for displaying output below the input field -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/displayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:padding="8dp" />
+    </ScrollView>
+    <Button
+        android:id="@+id/backbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="mozda me i ne interesuje toliko vise!"
+        />
+
+</LinearLayout>
