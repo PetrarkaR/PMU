@@ -1,221 +1,107 @@
 package com.example.triujednojpokusaj3
 
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.text.Editable
-import android.text.TextWatcher
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import java.util.concurrent.TimeUnit
+import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 
 class IksFragment : Fragment() {
-    private lateinit var statusText: TextView
-    private lateinit var scoreBoard: TextView
+
+    // ViewModel for managing game state
+    private val iksViewModel: IksViewModel by viewModels()
+    private val scoreViewModel: ScoreViewModel by activityViewModels()
+
+
+    private lateinit var btnNavigationFragmentPocetni: Button
+    private lateinit var textViews: List<TextView>
+    private lateinit var winnerTextView: TextView
+    private lateinit var redButton: Button
+    private lateinit var blueButton: Button
+    private lateinit var hintInput: EditText
     private lateinit var resetButton: Button
-    private lateinit var resetScore: Button
-    private lateinit var backbutton: Button
-    private lateinit var timerText: TextView
-    private lateinit var countDownTimer: CountDownTimer
+    private lateinit var timerTextView: TextView
 
-    private val cells = Array(3) { Array<EditText?>(3) { null } }
-
-    // ViewModel
-    private val viewModel: TicTacToeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_iks, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_iks, container, false)
+         val scoreButton: Button
 
-        // Initialize views after inflation
-        initializeViews(view)
-        initializeGame()
-        observeViewModel()
-        startTimer()
+        btnNavigationFragmentPocetni = view.findViewById(R.id.buttonBack2)
+        winnerTextView = view.findViewById(R.id.lastwinner)
+        redButton = view.findViewById(R.id.redButton)
+        blueButton = view.findViewById(R.id.blueButton)
+        hintInput = view.findViewById(R.id.choose2)
+        resetButton = view.findViewById(R.id.button)
+        timerTextView = view.findViewById(R.id.timerTextView)
+        scoreButton = view.findViewById(R.id.rezultatButton2)
+
+        scoreButton.setOnClickListener(){
+            scoreViewModel.setGameData("X/O", "${winnerTextView.text}")
+            Navigation.findNavController(view).navigate(R.id.action_iksFragment_to_scoreFragment)
+
+        }
+
+        textViews = listOf(
+            view.findViewById(R.id.P1),
+            view.findViewById(R.id.P2),
+            view.findViewById(R.id.p3),
+            view.findViewById(R.id.p4),
+            view.findViewById(R.id.p5),
+            view.findViewById(R.id.p6),
+            view.findViewById(R.id.p7),
+            view.findViewById(R.id.p8),
+            view.findViewById(R.id.p9)
+        )
+        textViews.forEach{ it.tag = "not_clicked" }
+        btnNavigationFragmentPocetni.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_iksFragment_to_pocetniFragment)
+        }
+iksViewModel.startTimer()
+        iksViewModel.timeRemaining.observe(viewLifecycleOwner, Observer { timeRemaining ->
+            if (timeRemaining == 0L) {
+                timerTextView.text = "Time's up!"
+            } else {
+                timerTextView.text = "Time remaining: $timeRemaining seconds"
+            }
+        })
+
+        iksViewModel.winnerText.observe(viewLifecycleOwner, {
+            winnerTextView.text = it
+        })
+
+        resetButton.setOnClickListener {
+            iksViewModel.gameRestart(textViews)
+            iksViewModel.startTimer()
+            scoreViewModel.setGameData("X/O", "${winnerTextView.text}")
+        }
+
+        redButton.setOnClickListener {
+            val hint = hintInput.text.toString()
+            iksViewModel.handleMove(textViews, hint, 1)
+            scoreViewModel.setGameData("X/O", "${winnerTextView.text}")
+        }
+
+        blueButton.setOnClickListener {
+            val hint = hintInput.text.toString()
+            iksViewModel.handleMove(textViews, hint, 2)
+            scoreViewModel.setGameData("X/O", "${winnerTextView.text}")
+        }
+        winnerTextView.setOnClickListener{
+            iksViewModel.resetWinner()
+            scoreViewModel.setGameData("X/O", "${winnerTextView.text}")
+        }
 
         return view
     }
-
-    private fun initializeViews(view: View) {
-        statusText = view.findViewById(R.id.statusText)
-        scoreBoard = view.findViewById(R.id.scoreBoard)
-        resetButton = view.findViewById(R.id.resetButton)
-        resetScore = view.findViewById(R.id.resetScore)
-        backbutton = view.findViewById(R.id.backbutton)
-        timerText = view.findViewById(R.id.timerText)
-
-        backbutton.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        // Initialize all cells
-        for (i in 0..2) {
-            for (j in 0..2) {
-                val cellId = resources.getIdentifier("cell$i$j", "id", requireContext().packageName)
-                cells[i][j] = view.findViewById(cellId)
-                cells[i][j]?.addTextChangedListener(createTextWatcher(i, j))
-            }
-        }
-    }
-
-    private fun initializeGame() {
-        // Set up reset buttons
-        resetButton.setOnClickListener {
-            resetGame()
-        }
-        resetScore.setOnClickListener {
-            resetScore()
-        }
-    }
-
-    private fun observeViewModel() {
-        viewModel.isXTurn.observe(viewLifecycleOwner) { isXTurn ->
-            updateStatusText(isXTurn)
-        }
-
-        viewModel.xWins.observe(viewLifecycleOwner) { _ ->
-            updateScoreBoard()
-        }
-    }
-
-    private fun startTimer() {
-        countDownTimer = object : CountDownTimer(6000, 1000) { // 60 seconds, tick every 1 second
-            override fun onTick(millisUntilFinished: Long) {
-                val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
-                timerText.text = String.format("%02d:%02d", minutes, seconds)
-            }
-
-            override fun onFinish() {
-                timerText.text = "00:00"
-                Toast.makeText(context, "Vreme je isteklo!", Toast.LENGTH_SHORT).show()
-                gameOver("Vreme je isteklo!")
-            }
-        }.start()
-    }
-
-    private fun createTextWatcher(row: Int, col: Int) = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-        override fun afterTextChanged(s: Editable?) {
-            val input = s.toString().uppercase()
-            if (input.isNotEmpty()) {
-                // Get current game state
-                val currentBoard = viewModel.boardState.value ?: Array(3) { Array(3) { "" } }
-                val currentTurn = viewModel.isXTurn.value ?: true
-
-                // Validate move
-                if ((currentTurn && input != "X") || (!currentTurn && input != "O")) {
-                    cells[row][col]?.setText(if (currentTurn) "X" else "O")
-                    return
-                }
-
-                // Update board state
-                currentBoard[row][col] = input
-                viewModel.updateBoardState(row, col, input)
-
-                // Disable the cell after a valid move
-                cells[row][col]?.isEnabled = false
-
-                // Check for win or draw
-                if (viewModel.checkWin(currentBoard, currentTurn)) {
-                    viewModel.recordWin(currentTurn)
-                    gameOver("${if (currentTurn) "X" else "O"} je pobedio!")
-                } else if (viewModel.checkDraw(currentBoard)) {
-                    viewModel.recordDraw()
-                    gameOver("Nereseno!")
-                } else {
-                    // Switch turns in ViewModel
-                    viewModel.switchTurn()
-                }
-            }
-        }
-    }
-
-    // Rest of the methods remain the same as in the previous implementation...
-
-    private fun updateStatusText(isXTurn: Boolean) {
-        statusText.text = if (isXTurn) "x na potezu" else "o na potezu"
-    }
-
-    private fun updateScoreBoard() {
-        val xWins = viewModel.xWins.value ?: 0
-        val oWins = viewModel.oWins.value ?: 0
-        val draws = viewModel.draws.value ?: 0
-        scoreBoard.text = "$xWins:$oWins:$draws"
-    }
-
-    private fun resetGame() {
-        // Clear and enable all cells
-        cells.forEach { row ->
-            row.forEach { cell ->
-                cell?.apply {
-                    setText("")
-                    isEnabled = true
-                }
-            }
-        }
-
-        // Reset game in ViewModel
-        viewModel.resetGame()
-
-        // Restart timer
-        countDownTimer.cancel()
-        startTimer()
-    }
-
-    private fun resetScore() {
-        viewModel.resetScore()
-        countDownTimer.cancel()
-        startTimer()
-    }
-
-    private fun gameOver(message: String) {
-        statusText.text = message
-        // Disable all cells
-        cells.forEach { row ->
-            row.forEach { cell ->
-                cell?.isEnabled = false
-            }
-        }
-        countDownTimer.cancel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        countDownTimer.cancel()
-    }
-    private lateinit var timer: CountDownTimer
-    private val turnTimeLimit: Long = 10_000 // 10 seconds
-
-    private fun startTurnTimer() {
-        timer = object : CountDownTimer(turnTimeLimit, 1_000) {
-            override fun onTick(millisUntilFinished: Long) {
-                statusText.text = "${if (viewModel.isXTurn.value == true) "X" else "O"} na potezu - preostalo vreme: ${millisUntilFinished / 1000}s"
-            }
-
-            override fun onFinish() {
-                Toast.makeText(requireContext(), "Vreme je isteklo!", Toast.LENGTH_SHORT).show()
-                viewModel.isXTurn.value = !(viewModel.isXTurn.value ?: true) // Switch turn
-                startTurnTimer() // Restart timer for the next turn
-            }
-        }
-        timer.start()
-    }
-
-
-
-    // Existing win and draw check methods remain the same
 }

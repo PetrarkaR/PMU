@@ -1,86 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/cardview_light_background"
+    android:background="@drawable/background"
+
+    android:orientation="horizontal"
     tools:context=".TekstFragment">
 
+    <!-- TODO: Update blank fragment layout -->
 
-    <!-- ImageView for the crane image below the title -->
-
-    <!-- Guide TextView centered below the image -->
-
-    <TextView
-        android:id="@+id/title"
+    <Button
+        android:id="@+id/rezultatButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="Origami"
-        android:textSize="60sp" />
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/Rezultat"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/with_number" />
+
+    <Button
+        android:id="@+id/buttonBack4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="77dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#4E4D4D"
+        android:text="@string/goBack"
+        android:textColorLink="#6B6767"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/button" />
+
+    <TextView
+        android:id="@+id/textTop"
+        android:layout_width="278dp"
+        android:layout_height="160dp"
+        android:layout_margin="@dimen/Margina"
+        android:paddingTop="@dimen/padding_top"
+        android:text="@string/Top_text"
+        android:textAlignment="center"
+        android:textSize="@dimen/Title"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/crane"
-        android:layout_width="match_parent"
-        android:layout_height="600px"
-        android:layout_gravity="center"
-        android:src="@drawable/howto" />
+        android:id="@+id/worldMap"
+        android:layout_width="121dp"
+        android:layout_height="97dp"
+        android:layout_margin="@dimen/Margina"
+        android:contentDescription="@string/contentDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textTop"
+        app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
     <TextView
-        android:id="@+id/guide"
+        android:id="@+id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Odaberite koji tekst zelite da vidite (istorija, opis, danas)"
-        android:textSize="15sp"
-        android:fontFamily="sans-serif-condensed-medium" />
+        android:layout_margin="@dimen/Margina"
+        android:text="@string/Chose_one"
+        android:textSize="@dimen/TextSize"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/worldMap" />
 
-    <!-- Button placeholder below the guide text -->
-
-
-    <!-- Input field centered below the guide text -->
-    <EditText
-        android:id="@+id/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="Sta Vas interesuje?" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:layout_width="98dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="hocu da vidim!"
-        />
+        android:layout_margin="@dimen/Margina"
+        android:gravity="center"
+        android:paddingLeft="@dimen/zero"
+        android:paddingTop="@dimen/zero"
+        android:paddingRight="@dimen/zero"
+        android:paddingBottom="@dimen/zero"
+        android:text="@string/displayButton"
+        android:textSize="@dimen/TextSize"
+        android:textStyle="italic"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/with_number" />
 
-
-    <!-- Scrollable TextView for displaying output below the input field -->
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:id="@+id/scrollView2"
+        android:layout_width="409dp"
+        android:layout_height="478dp"
+        android:layout_margin="@dimen/Margina"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button">
 
-        <TextView
-            android:id="@+id/displayText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="20sp"
-            android:padding="8dp" />
-    </ScrollView>
-    <Button
-        android:id="@+id/backbutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="mozda me i ne interesuje toliko vise!"
-        />
+            android:orientation="vertical">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_slide"
+                android:text=""
+                android:textStyle="italic" />
+        </LinearLayout>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/with_number"
+        android:layout_width="282dp"
+        android:layout_height="55dp"
+        android:ems="10"
+        android:hint="@string/hint"
+        android:inputType="text"
+        android:text="@string/choose2"
+        android:textAlignment="viewStart"
+        android:textSize="@dimen/TextSize"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

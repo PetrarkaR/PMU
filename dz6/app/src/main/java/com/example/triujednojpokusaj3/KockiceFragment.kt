@@ -7,87 +7,74 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
-import androidx.navigation.fragment.findNavController
-import java.util.Random
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+
 
 class KockiceFragment : Fragment() {
-    private lateinit var dice1: ImageView
-    private lateinit var dice2: ImageView
-    private lateinit var rollButton: Button
-    private lateinit var backButton: Button
-    private lateinit var sumText: TextView
-    private lateinit var buttonSwitch: Switch
+    private lateinit var btnNavigationFragmentPocetni: Button
+    private lateinit var diceImage: ImageView
+    private lateinit var diceImage2: ImageView
+    private lateinit var resultText: TextView
+    private lateinit var scoreButton: Button
+
+    private val viewModel: KockiceViewModel by viewModels()
+    private val scoreViewModel: ScoreViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_kockice, container, false)
 
-        initializeViews(view)
-        setupClickListeners()
+        btnNavigationFragmentPocetni = view.findViewById(R.id.buttonBack)
+        diceImage = view.findViewById(R.id.dice_image)
+        diceImage2 = view.findViewById(R.id.dice_image2)
+        resultText = view.findViewById(R.id.result_text)
+        scoreButton = view.findViewById(R.id.rezultatButton2)
+        val rollButton: Button = view.findViewById(R.id.roll_button)
+
+
+
+
+
+
+        rollButton.text = "Let's Roll"
+
+        btnNavigationFragmentPocetni.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_kockiceFragment_to_pocetniFragment)
+        }
+
+        viewModel.diceImage1.observe(viewLifecycleOwner, Observer { drawableResource ->
+            diceImage.setImageResource(drawableResource)
+        })
+
+        viewModel.diceImage2.observe(viewLifecycleOwner, Observer { drawableResource ->
+            diceImage2.setImageResource(drawableResource)
+        })
+
+        viewModel.resultText.observe(viewLifecycleOwner, Observer { result ->
+            resultText.text = result
+            scoreViewModel.setGameData("Monopol", "$result")
+
+        })
+
+
+        rollButton.setOnClickListener {
+            viewModel.rollDice()
+        }
+        scoreButton.setOnClickListener(){
+
+            Navigation.findNavController(view).navigate(R.id.action_kockiceFragment_to_scoreFragment)
+        }
+
 
         return view
     }
-
-    private fun initializeViews(view: View) {
-        dice1 = view.findViewById(R.id.dice1)
-        dice2 = view.findViewById(R.id.dice2)
-        rollButton = view.findViewById(R.id.button)
-        backButton = view.findViewById(R.id.backbutton)
-        sumText = view.findViewById(R.id.sum)
-        buttonSwitch = view.findViewById(R.id.buttonSwitch)
-    }
-
-    private fun setupClickListeners() {
-        rollButton.setOnClickListener {
-            if (!buttonSwitch.isChecked) {
-                rollDice()
-            }
-        }
-
-        backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        buttonSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                rollButton.isEnabled = false
-                sumText.text = "Kockanje zaustavljeno!"
-            } else {
-                rollButton.isEnabled = true
-                sumText.text = ""
-            }
-        }
-    }
-
-    private fun rollDice() {
-        val randomInt1 = Random().nextInt(6) + 1
-        val drawableResource1 = when (randomInt1) {
-            1 -> R.drawable.dice_1
-            2 -> R.drawable.dice_2
-            3 -> R.drawable.dice_3
-            4 -> R.drawable.dice_4
-            5 -> R.drawable.dice_5
-            else -> R.drawable.dice_6
-        }
-        dice1.setImageResource(drawableResource1)
-
-        val randomInt2 = Random().nextInt(6) + 1
-        val drawableResource2 = when (randomInt2) {
-            1 -> R.drawable.dice_1
-            2 -> R.drawable.dice_2
-            3 -> R.drawable.dice_3
-            4 -> R.drawable.dice_4
-            5 -> R.drawable.dice_5
-            else -> R.drawable.dice_6
-        }
-        dice2.setImageResource(drawableResource2)
-
-        val sum = randomInt1 + randomInt2
-        sumText.text = sum.toString()
-    }
 }
+
+
+
