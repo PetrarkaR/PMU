@@ -1,146 +1,122 @@
 package com.example.triujednojpokusaj3
 
-import android.graphics.Color
-import android.os.CountDownTimer
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class IksViewModel : ViewModel() {
-//    companion object {
-//
-//
-//        // These represent different important times
-//// This is when the game is over
-//        const val DONE = 0L
-//        // This is the number of milliseconds in a second
-//        const val ONE_SECOND = 1000L
-//        // This is the total time of the game
-//        const val timeRemaining = 60000L
-//    }
+    private val _gameState = MutableLiveData<GameState>()
+    val gameState: LiveData<GameState> = _gameState
 
+    private val _score = MutableLiveData<Score>()
+    val score: LiveData<Score> = _score
 
-    private var x = 0
-    private var o = 0
+    private val _currentPlayer = MutableLiveData<Player>()
+    val currentPlayer: LiveData<Player> = _currentPlayer
 
-    val winnerText = MutableLiveData<String>()
-    val turnCounter = MutableLiveData<Int>().apply { value = 0 }
+    private val _gameStatus = MutableLiveData<GameStatus>()
+    val gameStatus: LiveData<GameStatus> = _gameStatus
 
-    private val _timeRemaining = MutableLiveData<Long>()
-    val timeRemaining: LiveData<Long> = _timeRemaining
-    private var countDownTimer: CountDownTimer? = null
-
-
-
-    fun gameRestart(textViews: List<TextView>) {
-        textViews.forEach { it.setBackgroundColor(Color.TRANSPARENT)
-            it.setTextColor(Color.WHITE)
-            it.tag = "not_clicked"
-//            it.setText("P")
-        }
-        textViews.forEachIndexed { index, textView ->
-            val rowNumber = index + 1
-            textView.text = "P$rowNumber"
-        }
-        winnerText.value = "X:O\n" +
-                "$x:$o"
+    init {
+        initializeGame()
     }
 
-    fun resetWinner() {
-        x = 0
-        o = 0
-        winnerText.value = "X:O\n $x:$o"
+    private fun initializeGame() {
+        _gameState.value = GameState()
+        _score.value = Score()
+        _currentPlayer.value = Player.X
+        _gameStatus.value = GameStatus.IN_PROGRESS
     }
 
-    fun handleMove(textViews: List<TextView>, hint: String, turn: Int) {
-        textViews.forEach { textView ->
-            if (textView.text.toString() == hint && textView.tag == "not_clicked") {
-                if (turn == 1) {
-                    textView.setBackgroundColor(Color.RED)
-                    textView.setTextColor(Color.WHITE)
-                    textView.setText("X")
-                } else {
-                    textView.setBackgroundColor(Color.BLUE)
-                    textView.setTextColor(Color.WHITE)
-                    textView.setText("O")
-                }
-                textView.tag = "clicked"
-                turnCounter.value = if (turn == 1) 2 else 1
+    fun makeMove(row: Int, col: Int) {
+        if (_gameStatus.value == GameStatus.GAME_OVER) return
+        if (_gameState.value?.board?.get(row)?.get(col) != null) return
 
+        val currentBoard = _gameState.value?.board?.map { it.toMutableList() }?.toMutableList()
+            ?: return
+        val currentPlayerValue = _currentPlayer.value ?: return
 
-                checkForWinner(textViews)
-            }
+        currentBoard[row][col] = currentPlayerValue
+        _gameState.value = GameState(currentBoard)
+
+        when {
+            checkWin(currentBoard, currentPlayerValue) -> handleWin(currentPlayerValue)
+            checkDraw(currentBoard) -> handleDraw()
+            else -> switchPlayer()
         }
     }
 
-    private fun checkForWinner(textViews: List<TextView>) {
-        for (i in 0..2) {
-            val start = i * 3
-            if (textViews[start].text == textViews[start + 1].text &&
-                textViews[start].text == textViews[start + 2].text &&
-                textViews[start].text.isNotEmpty()
-            ) {
-                showWinner(textViews[start].text.toString())
-                return
-            }
+    private fun handleWin(winner: Player) {
+        val currentScore = _score.value ?: Score()
+        _score.value = when (winner) {
+            Player.X -> currentScore.copy(xWins = currentScore.xWins + 1)
+            Player.O -> currentScore.copy(oWins = currentScore.oWins + 1)
         }
+        _gameStatus.value = GameStatus.GAME_OVER
+    }
 
-        for (i in 0..2) {
-            if (textViews[i].text == textViews[i + 3].text &&
-                textViews[i].text == textViews[i + 6].text &&
-                textViews[i].text.isNotEmpty()
-            ) {
-                showWinner(textViews[i].text.toString())
-                return
-            }
-        }
+    private fun handleDraw() {
+        val currentScore = _score.value ?: Score()
+        _score.value = currentScore.copy(draws = currentScore.draws + 1)
+        _gameStatus.value = GameStatus.GAME_OVER
+    }
 
-        if (textViews[0].text == textViews[4].text && textViews[0].text == textViews[8].text) {
-            showWinner(textViews[0].text.toString())
-        } else if (textViews[2].text == textViews[4].text && textViews[2].text == textViews[6].text) {
-            showWinner(textViews[2].text.toString())
+    private fun switchPlayer() {
+        _currentPlayer.value = when (_currentPlayer.value) {
+            Player.X -> Player.O
+            Player.O -> Player.X
+            null -> Player.X
         }
     }
 
-    private fun showWinner(winner: String) {
-        winnerText.value = "WINNER: $winner"
-        updateScore(winner)
-        cancelTimer()
+    fun resetGame() {
+        _gameState.value = GameState()
+        _currentPlayer.value = Player.X
+        _gameStatus.value = GameStatus.IN_PROGRESS
     }
 
-    private fun updateScore(winner: String) {
-        if (winner == "X") {
-            x++
-        } else if (winner == "O") {
-            o++
+    fun resetScore() {
+        _score.value = Score()
+    }
+
+    private fun checkWin(board: List<List<Player?>>, player: Player): Boolean {
+        // Check rows
+        for (row in board) {
+            if (row.all { it == player }) return true
         }
-        winnerText.value = "X:O\n $x:$o"
-    }
 
-
-    fun startTimer() {
-        val initialTime = 60000L // 10 seconds
-        countDownTimer = object : CountDownTimer(initialTime, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                _timeRemaining.value = millisUntilFinished / 1000 // Update the time remaining
-            }
-
-            override fun onFinish() {
-                _timeRemaining.value = 0 // Timer finished
-            }
+        // Check columns
+        for (col in board.indices) {
+            if (board.all { it[col] == player }) return true
         }
-        countDownTimer?.start() // Start the timer
+
+        // Check diagonals
+        val mainDiagonal = (board.indices).all { board[it][it] == player }
+        val antiDiagonal = (board.indices).all { board[it][board.size - 1 - it] == player }
+
+        return mainDiagonal || antiDiagonal
     }
 
-    fun cancelTimer() {
-        countDownTimer?.cancel() // Cancel the timer if it's running
-        _timeRemaining.value = 0 // Reset the timer display
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        countDownTimer?.cancel() // Ensure the timer is canceled when ViewModel is destroyed
+    private fun checkDraw(board: List<List<Player?>>): Boolean {
+        return board.all { row -> row.all { it != null } }
     }
 }
 
+// Data classes and enums
+enum class Player {
+    X, O
+}
+
+enum class GameStatus {
+    IN_PROGRESS, GAME_OVER
+}
+
+data class Score(
+    val xWins: Int = 0,
+    val oWins: Int = 0,
+    val draws: Int = 0
+)
+
+data class GameState(
+    val board: List<List<Player?>> = List(3) { List(3) { null } }
+)

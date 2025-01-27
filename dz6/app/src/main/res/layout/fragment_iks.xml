@@ -1,331 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#717070"
     android:orientation="vertical"
-    tools:context=".IksFragment">
+    android:padding="16dp"
+    android:gravity="center">
 
-    <Button
-        android:id="@+id/buttonBack2"
+    <TextView
+        android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="23dp"
-        android:backgroundTint="#4E4D4D"
-        android:text="@string/goBack"
-        android:textColorLink="#6B6767"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lastwinner" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="2dp"
-        android:layout_height="400dp"
-
-        android:background="@color/white"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/P2"
-        app:layout_constraintStart_toEndOf="@+id/p4"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0"></LinearLayout>
-
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/iksoks"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/titleSize"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
-
-    <TextView
-        android:id="@+id/P1"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p1"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/P2"
-        app:layout_constraintEnd_toStartOf="@+id/P2"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/P2"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p2"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/p5"
-        app:layout_constraintEnd_toStartOf="@+id/p3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/P1"
-        app:layout_constraintTop_toBottomOf="@+id/titleText" />
-
-    <TextView
-        android:id="@+id/p3"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p3"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/P2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/P2" />
-
-    <TextView
-        android:id="@+id/p4"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p4"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/p5"
-        app:layout_constraintEnd_toStartOf="@+id/p5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/p5"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p5"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/p8"
-        app:layout_constraintEnd_toStartOf="@+id/p6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/p4"
-        app:layout_constraintTop_toBottomOf="@+id/P2" />
-
-    <TextView
-        android:id="@+id/p6"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p6"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/p5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/p5" />
-
-    <TextView
-        android:id="@+id/p7"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p7"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/p8"
-        app:layout_constraintEnd_toStartOf="@+id/p8"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/p8"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:layout_marginBottom="@dimen/marginBottom"
-        android:gravity="center"
-        android:text="@string/p8"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/p9"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/p7"
-        app:layout_constraintTop_toBottomOf="@+id/p5" />
-
-    <TextView
-        android:id="@+id/p9"
-        style="@style/CustomTextViewStyle"
-        android:layout_width="@dimen/box"
-        android:layout_height="@dimen/box"
-        android:gravity="center"
-        android:text="@string/p9"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/xoSize"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/p8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/p8" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="2dp"
-        android:layout_height="400dp"
-        android:background="#FFFFFF"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/p6"
-        app:layout_constraintStart_toEndOf="@+id/p5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.367"></LinearLayout>
-
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="@dimen/width"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/p5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/P2"
-        tools:visibility="visible"></LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="350dp"
-        android:layout_height="@dimen/width"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/p8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/p5"></LinearLayout>
-
-    <EditText
-        android:id="@+id/choose2"
-        android:layout_width="325dp"
-        android:layout_height="58dp"
-        android:ems="10"
-        android:hint="@string/choose"
-        android:inputType="text"
-        android:textColor="@color/allColors"
-        android:textColorHighlight="@color/allColors"
-        app:layout_constraintBottom_toTopOf="@+id/redButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/p8"
-        app:layout_constraintVertical_bias="0.671" />
-
-    <Button
-        android:id="@+id/blueButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="#3F51B5"
-        android:text="@string/setO"
-        android:textSize="@dimen/buttonSize"
-        app:layout_constraintBottom_toTopOf="@+id/lastwinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/redButton"
-        app:layout_constraintTop_toBottomOf="@+id/p9"
-        app:layout_constraintVertical_bias="0.776" />
-
-    <Button
-        android:id="@+id/redButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:backgroundTint="#F44336"
-        android:text="@string/setX"
-        android:textSize="@dimen/buttonSize"
-        app:layout_constraintBaseline_toBaselineOf="@+id/blueButton"
-        app:layout_constraintEnd_toStartOf="@+id/blueButton"
-        app:layout_constraintHorizontal_bias="0.38"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
-        android:text="@string/button"
-        android:textColor="@color/black"
-        android:textColorLink="@color/black"
-        android:textSize="@dimen/textSize"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.838" />
-
-    <TextView
-        android:id="@+id/lastwinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/lastwinner"
-        android:textAlignment="center"
-        android:textColor="@color/allColors"
-        android:textSize="@dimen/textSize"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.17"
-        app:layout_constraintStart_toEndOf="@+id/button" />
-
-    <TextView
-        android:id="@+id/timerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="@string/Timer"
-        android:textColor="@android:color/black"
+        android:text="X na potezu"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/titleText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginBottom="16dp"/>
 
-    <Button
-        android:id="@+id/rezultatButton2"
+    <TextView
+        android:id="@+id/scoreBoard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="49dp"
-        android:text="@string/Rezultat"
-        app:layout_constraintBottom_toTopOf="@+id/p3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/titleText"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="0:0:0"
+        android:textSize="24sp"
+        android:layout_marginBottom="32dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Game Grid -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Row 1 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/cell00"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+
+            <EditText
+                android:id="@+id/cell01"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+
+            <EditText
+                android:id="@+id/cell02"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+        </LinearLayout>
+
+        <!-- Row 2 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/cell10"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+
+            <EditText
+                android:id="@+id/cell11"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+
+            <EditText
+                android:id="@+id/cell12"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+        </LinearLayout>
+
+        <!-- Row 3 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/cell20"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+
+            <EditText
+                android:id="@+id/cell21"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+
+            <EditText
+                android:id="@+id/cell22"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:textSize="40sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Game"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/resetScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Score"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

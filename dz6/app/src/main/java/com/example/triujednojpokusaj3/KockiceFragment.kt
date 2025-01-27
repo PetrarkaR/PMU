@@ -42,7 +42,7 @@ class KockiceFragment : Fragment() {
 
 
 
-        rollButton.text = "Let's Roll"
+        rollButton.text = "Kockanje!"
 
         btnNavigationFragmentPocetni.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_kockiceFragment_to_pocetniFragment)
