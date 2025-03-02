@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
 
     android:orientation="horizontal"
     tools:context=".TekstFragment">
@@ -45,7 +44,7 @@
         android:layout_height="160dp"
         android:layout_margin="@dimen/Margina"
         android:paddingTop="@dimen/padding_top"
-        android:text="@string/Top_text"
+        android:text="Origami!"
         android:textAlignment="center"
         android:textSize="@dimen/Title"
         android:textStyle="bold|italic"
@@ -62,14 +61,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textTop"
-        app:srcCompat="@android:drawable/ic_menu_mapmode" />
+        app:srcCompat="@drawable/vexelsv" />
 
     <TextView
         android:id="@+id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/Margina"
-        android:text="@string/Chose_one"
+        android:text="Istorija, opis, ili danasnjica?"
         android:textSize="@dimen/TextSize"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/pocetniFragment"
-        android:name="com.example.triujednojpokusaj3.PocetniFragment"
+        android:name="com.example.dz6.PocetniFragment"
         android:label="fragment_pocetni"
         tools:layout="@layout/fragment_pocetni" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/iksFragment"
-        android:name="com.example.triujednojpokusaj3.IksFragment"
+        android:name="com.example.dz6.IksFragment"
         android:label="fragment_iks"
         tools:layout="@layout/fragment_iks" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/kockiceFragment"
-        android:name="com.example.triujednojpokusaj3.KockiceFragment"
+        android:name="com.example.dz6.KockiceFragment"
         android:label="fragment_kockice"
         tools:layout="@layout/fragment_kockice" >
         <action
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/tekstFragment"
-        android:name="com.example.triujednojpokusaj3.TekstFragment"
+        android:name="com.example.dz6.TekstFragment"
         android:label="fragment_tekst"
         tools:layout="@layout/fragment_tekst" >
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.example.triujednojpokusaj3.AboutFragment"
+        android:name="com.example.dz6.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/scoreFragment"
-        android:name="com.example.triujednojpokusaj3.ScoreFragment"
+        android:name="com.example.dz6.ScoreFragment"
         android:label="fragment_score"
         tools:layout="@layout/fragment_score" >
         <action

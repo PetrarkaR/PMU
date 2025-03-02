@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "dz6"
+rootProject.name = "AnimeStorePokusaj5"
 include(":app")
  
